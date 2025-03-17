@@ -16,7 +16,7 @@
     background: var(--gun-metal);
     background-image: url(./assets/pattern.jpg);
     background-blend-mode: overlay;
-    background-size: contain;
+    background-size: cover;
     background-position: center;
     width: 300px;
     max-height: 520px;
