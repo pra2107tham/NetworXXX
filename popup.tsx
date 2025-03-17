@@ -1,5 +1,6 @@
 import { useState } from "react"
 import "./style.css"
+import "./popup.css"
 
 function IndexPopup() {
   const [data, setData] = useState("")
@@ -60,13 +61,7 @@ function IndexPopup() {
   }
   return (
     // Modify your main container div
-    <div className="linkelevate-popup" style={{
-      // backgroundColor: "#ffffff",
-      borderRadius: "0px",
-      // boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-      // minWidth: "400px"
-      // border: "none"
-    }}>
+    <div className="linkelevate-popup">
       <div className="popup-header">
         <h2>Linkelevate: LinkedIn Growth Assistant</h2>
         <button className="close-button" onClick={() => setIsOpen(false)}>×</button>
