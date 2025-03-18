@@ -1,4 +1,3 @@
-
 :root {
     --gun-metal: #00272B;
     --chartreuse: #E0FF4F;
@@ -79,6 +78,8 @@
 .progress-fill {
     height: 100%;
     background-color: var(--chartreuse);
+    /* Added glowing effect */
+    animation: glowing 2s infinite;
 }
 
 /* Counter Styles */
@@ -137,4 +138,32 @@
     box-shadow: 0 0 12px var(--chartreuse);
     transition: box-shadow 0.3s ease-in-out;
     cursor: pointer;
+}
+
+@keyframes glowing {
+	0% {
+		box-shadow: 0 0 5px var(--chartreuse), 0 0 10px var(--chartreuse);
+		filter: brightness(1);
+	}
+	50% {
+		box-shadow: 0 0 15px var(--chartreuse), 0 0 30px var(--chartreuse);
+		filter: brightness(1.2);
+	}
+	100% {
+		box-shadow: 0 0 5px var(--chartreuse), 0 0 10px var(--chartreuse);
+		filter: brightness(1);
+	}
+}
+
+/* Dropdown Animation */
+.dropdown-container {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+}
+
+.dropdown-container.open {
+    max-height: 600px; /* Adjust based on content height */
+    opacity: 1;
 }
