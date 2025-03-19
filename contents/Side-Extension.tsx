@@ -1,7 +1,7 @@
 import type { PlasmoCSConfig, PlasmoGetInlineAnchor, PlasmoGetStyle } from "plasmo"
 import React, {useState} from 'react'
-import "./style.css"
-import "./popup.css"
+import "../style.css"
+import "../popup.css"
 import styleText from "data-text:./content-style.css"
 
 export const getStyle: PlasmoGetStyle = () => {
@@ -69,7 +69,7 @@ const PlasmoPricingExtra = () => {
         <span onClick={() => setIsOpen(!isOpen)} style={{ cursor: "pointer" }}>{isOpen ? "▲" : "▼"}</span>
       </div>
       <div className={`dropdown-container ${isOpen ? "open" : ""}`}>
-        <div className="popup-section">
+        <div className="popup-section" style={{ paddingTop: '6px', paddingBottom: '6px' }}>
           <h3>Engagement Streak</h3>
           <div className="progress-container">
             <label>Daily: 3/10 comments</label>
@@ -77,7 +77,7 @@ const PlasmoPricingExtra = () => {
               <div className="progress-fill" style={{ width: '30%' }}></div>
             </div>
           </div>
-          <div className="progress-container">
+          <div className="progress-container" style={{ marginBottom: '2px' }}>
             <label>Weekly: 1/3 posts</label>
             <div className="progress-bar">
               <div className="progress-fill" style={{ width: '33%' }}></div>
@@ -85,8 +85,8 @@ const PlasmoPricingExtra = () => {
           </div>
         </div>
         
-        <div className="popup-section">
-          <h3>Activity Counter</h3>
+        <div className="popup-section" style={{ paddingTop: '6px', paddingBottom: '6px' }}>
+          <h3>Activity counter</h3>
           <div className="counter-grid">
             <div className="counter-item">
               <span className="counter-value">24</span>
@@ -99,11 +99,71 @@ const PlasmoPricingExtra = () => {
           </div>
         </div>
         
-        <div className="popup-section coming-soon">
-          <h3>Coming Soon</h3>
-          <div className="coming-soon-features">
-            <div className="feature-item">AI-powered Analytics</div>
-            <div className="feature-item">Sentiment Analysis</div>
+        <div className="popup-section impact-section" style={{ paddingTop: '6px', paddingBottom: '6px' }}>
+          <h3>This Week's Impact</h3>
+          <div className="impact-grid">
+            <div className="impact-card">
+              <div className="impact-left">
+                Profile Views
+              </div>
+              <div className="impact-right">
+                <div className="impact-data">
+                  <div className="impact-value">143</div>
+                  <div className="impact-trend positive">
+                    <span className="trend-arrow">↑</span>
+                    <span className="trend-value">28%</span>
+                  </div>
+                </div>
+                <div className="sparkline">
+                  <svg width="100%" height="100%" viewBox="0 0 50 12">
+                    <polyline 
+                      points="5,9 12,7 20,8 28,5 36,6 44,3" 
+                      fill="none" 
+                      stroke="var(--chartreuse)" 
+                      strokeWidth="1"
+                    />
+                    <circle cx="44" cy="3" r="1.5" fill="var(--chartreuse)" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            
+            <div className="impact-card">
+              <div className="impact-left">
+                Impressions
+              </div>
+              <div className="impact-right">
+                <div className="impact-data">
+                  <div className="impact-value">1,208</div>
+                  <div className="impact-trend positive">
+                    <span className="trend-arrow">↑</span>
+                    <span className="trend-value">45%</span>
+                  </div>
+                </div>
+                <div className="sparkline">
+                  <svg width="100%" height="100%" viewBox="0 0 50 12">
+                    <polyline 
+                      points="5,7 12,6 20,5 28,4 36,5 44,2" 
+                      fill="none" 
+                      stroke="var(--chartreuse)" 
+                      strokeWidth="1"
+                    />
+                    <circle cx="44" cy="2" r="1.5" fill="var(--chartreuse)" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="popup-section coming-soon-section" style={{ paddingTop: '5px', paddingBottom: '10px', borderBottom: 'none' }}>
+          <div className="coming-soon-header">
+            <h3>Coming soon!</h3>
+            <div className="pulse-dot"></div>
+          </div>
+          <div className="coming-soon-pills">
+            <div className="pill">AI Analytics</div>
+            <div className="pill">Sentiment Analysis</div>
           </div>
         </div>
       </div>
