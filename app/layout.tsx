@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { LayoutWrapper } from "@/components/layout-wrapper";
 import { Toaster } from "sonner";
-
+import { Analytics } from "@vercel/analytics/react"
 // const inter = Inter({ subsets: ["latin"] });             
 
 export const metadata = {
@@ -20,6 +20,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body>
+          <Analytics />
           <Toaster position="bottom-right" />
             <LayoutWrapper>
               {children}
