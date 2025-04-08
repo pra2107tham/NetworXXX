@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* Popup Styles */
 .linkelevate-popup {
   width: 300px;
