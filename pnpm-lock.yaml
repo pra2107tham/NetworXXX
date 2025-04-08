@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@clerk/nextjs':
-        specifier: ^6.13.0
+        specifier: ^6.14.0
         version: 6.14.0(next@15.2.4(@babel/core@7.26.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@hookform/resolvers':
         specifier: ^3.9.1
@@ -120,7 +120,7 @@ importers:
         specifier: ^0.454.0
         version: 0.454.0(react@18.2.0)
       next:
-        specifier: 15.2.4
+        specifier: ^15.2.4
         version: 15.2.4(@babel/core@7.26.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       next-themes:
         specifier: ^0.4.6
