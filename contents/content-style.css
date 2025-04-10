@@ -18,13 +18,8 @@
 
 /* Popup Styles */
 .linkelevate-popup {
-    background: var(--gun-metal);
-    background-image: url(../assets/pattern.jpg);
-    background-blend-mode: overlay;
-    background-size: cover;
-    background-position: center;
+    background-color: var(--gun-metal);
     width: 300px;
-    /* max-height: 440px; */
     color: var(--light-text);
     border-radius: 8px;
     box-shadow: var(--box-shadow);
