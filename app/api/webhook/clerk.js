@@ -8,6 +8,12 @@ const supabase = createClient(
 );
 
 export default async function handler(req, res) {
+  // Check if the request method is POST
+  if (req.method !== 'POST') {
+    console.log('Invalid method:', req.method);
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   const payload = await req.json();
   const headers = req.headers;
   const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
