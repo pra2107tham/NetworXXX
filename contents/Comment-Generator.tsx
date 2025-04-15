@@ -21,8 +21,9 @@ const CommentGenerator = () => {
   const [customPrompt, setCustomPrompt] = useState("");
   const [useCustomPrompt, setUseCustomPrompt] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Appreciate");
-
-  const commentCategories = ["Appreciate", "Differentiate", "Curious", "Encourage", "Challenge"];
+  const [commentSize, setCommentSize] = useState("Medium");
+  const commentCategories = ["Appreciate", "Differ", "Curious", "Analyze", "Suggest", "Inspire"];
+  const commentSizes = ["Short", "Medium", "Long"];
 
   const handleGenerateComment = () => {
     if (useCustomPrompt) {
@@ -78,6 +79,23 @@ const CommentGenerator = () => {
               />
             </div>
           )}
+
+          <div className="plasmo-dialog-header">
+            <h3 className="plasmo-dialog-title">Comment Size</h3>
+          </div>
+          <div className="plasmo-dialog-section">
+            <div className="plasmo-dialog-grid">
+              {commentSizes.map((size) => (
+                <div
+                  key={size}
+                  className={`plasmo-dialog-option ${commentSize === size ? 'selected' : ''}`}
+                  onClick={() => setCommentSize(size)}
+                >
+                  {size}
+                </div>
+              ))}
+            </div>
+          </div>
 
           <button onClick={handleGenerateComment}>
             Generate Comment
