@@ -20,7 +20,7 @@ export function TopNavbar({ title, isLinkedInConnected }: TopNavbarProps) {
           {!isLinkedInConnected ? (
             <Button
               variant="outline"
-              className="border-[#E0FF4F]/20 text-[#E0FF4F] hover:bg-[#E0FF4F]/10 hover:border-[#E0FF4F]/30 transition-all duration-300"
+                className="border-[#E0FF4F]/20 text-[#E0FF4F] hover:text-[#E0FF4F] hover:bg-[#E0FF4F]/10 hover:border-[#E0FF4F]/30 transition-all duration-300"
             >
               <Linkedin className="mr-2 h-4 w-4" />
               Connect LinkedIn
