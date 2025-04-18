@@ -1,5 +1,5 @@
 "use client"
-
+import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button"
 import { UserNav } from "@/components/user-nav"
 import { Linkedin } from "lucide-react"
@@ -10,6 +10,19 @@ interface TopNavbarProps {
 }
 
 export function TopNavbar({ title, isLinkedInConnected }: TopNavbarProps) {
+  const router = useRouter();
+
+  const initiateAuth = async () => {
+    const authUrl = new URL('https://www.linkedin.com/oauth/v2/authorization');
+    authUrl.searchParams.append('response_type', 'code');
+    authUrl.searchParams.append('client_id', process.env.NEXT_PUBLIC_LINKEDIN_CLIENT_ID!);
+    authUrl.searchParams.append('redirect_uri', 
+      (`${window.location.origin}/api/oauth/callback`));
+    authUrl.searchParams.append('scope', 'openid profile email');
+    authUrl.searchParams.append('state', crypto.randomUUID());
+    
+    router.push(authUrl.toString());
+  };
   return (
     <div className="sticky top-0 z-50 w-full border-b border-[#E0FF4F]/5 bg-[#001A1D]/80 backdrop-blur-sm shadow-[0_4px_20px_rgba(0,39,43,0.3)]">
       <div className="flex h-16 items-center justify-between px-6">
@@ -21,6 +34,7 @@ export function TopNavbar({ title, isLinkedInConnected }: TopNavbarProps) {
             <Button
               variant="outline"
                 className="border-[#E0FF4F]/20 text-[#E0FF4F] hover:text-[#E0FF4F] hover:bg-[#E0FF4F]/10 hover:border-[#E0FF4F]/30 transition-all duration-300"
+                onClick={initiateAuth}
             >
               <Linkedin className="mr-2 h-4 w-4" />
               Connect LinkedIn
