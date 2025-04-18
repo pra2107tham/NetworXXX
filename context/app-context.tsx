@@ -1,0 +1,88 @@
+"use client"
+
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react'
+
+interface LinkedInData {
+  linkedin_id: string | null
+  linkedin_access_token: string | null
+}
+
+interface AppContextType {
+  isLinkedInConnected: boolean
+  setIsLinkedInConnected: (value: boolean) => void
+  user: {
+    name: string | null
+    email: string | null
+  }
+  setUser: (user: { name: string | null; email: string | null }) => void
+  linkedinData: LinkedInData
+  fetchLinkedInStatus: () => Promise<void>
+}
+
+const AppContext = createContext<AppContextType | undefined>(undefined)
+
+export function AppProvider({ children }: { children: ReactNode }) {
+  const [isLinkedInConnected, setIsLinkedInConnected] = useState(false)
+  const [user, setUser] = useState<{ name: string | null; email: string | null }>({
+    name: null,
+    email: null,
+  })
+  const [linkedinData, setLinkedinData] = useState<LinkedInData>({
+    linkedin_id: null,
+    linkedin_access_token: null,
+  })
+
+  const fetchLinkedInStatus = async () => {
+    try {
+      const response = await fetch('/api/check_linkedin_connection')
+      if (response.ok) {
+        const data = await response.json()
+        setLinkedinData({
+          linkedin_id: data.linkedin_id,
+          linkedin_access_token: data.linkedin_access_token,
+        })
+        setIsLinkedInConnected(!!data.linkedin_id)
+      } else {
+        setIsLinkedInConnected(false)
+        setLinkedinData({
+          linkedin_id: null,
+          linkedin_access_token: null,
+        })
+      }
+    } catch (error) {
+      console.error('Error fetching LinkedIn status:', error)
+      setIsLinkedInConnected(false)
+      setLinkedinData({
+        linkedin_id: null,
+        linkedin_access_token: null,
+      })
+    }
+  }
+
+  useEffect(() => {
+    fetchLinkedInStatus()
+  }, [])
+
+  return (
+    <AppContext.Provider
+      value={{
+        isLinkedInConnected,
+        setIsLinkedInConnected,
+        user,
+        setUser,
+        linkedinData,
+        fetchLinkedInStatus,
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  )
+}
+
+export function useAppContext() {
+  const context = useContext(AppContext)
+  if (context === undefined) {
+    throw new Error('useAppContext must be used within an AppProvider')
+  }
+  return context
+} 
