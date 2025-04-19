@@ -32,16 +32,10 @@ export async function GET(request: Request) {
         }),
         });
         
-        console.log(tokenResponse);
-        const { access_token } = await tokenResponse.json();
+        const { access_token, expires_in } = await tokenResponse.json();
 
-        const fetchUserInfo = await fetch('https://api.linkedin.com/v2/userinfo', {
-            headers: {
-                'Authorization': `Bearer ${access_token}`
-            }
-        });
-        const userInfo = await fetchUserInfo.json();
-        const userSub = userInfo.sub;
+        const expiresAt = new Date();
+        expiresAt.setSeconds(expiresAt.getSeconds() + expires_in);
 
         const supabase = createClient(
             process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -52,9 +46,8 @@ export async function GET(request: Request) {
         const { data, error } = await supabase
             .from('users') // replace with your actual table name
             .update({
-                // linkedin_id: id_token, // or extract from id_token if needed
                 linkedin_access_token: access_token,
-                linkedin_id: userSub
+                linkedin_expires_at: expiresAt
             })
             .eq('email', userEmail);
 

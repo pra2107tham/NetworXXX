@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { useUser } from "@clerk/nextjs"
 import { TopNavbar } from "@/components/top-navbar"
 import { Button } from "@/components/ui/button"
@@ -22,10 +23,25 @@ export default function ProfileSettingsPage() {
   const [website, setWebsite] = useState("https://example.com")
   const [isDisconnecting, setIsDisconnecting] = useState(false)
 
+  const router = useRouter()
+  const initiateAuth = async () => {
+    const authUrl = new URL('https://www.linkedin.com/oauth/v2/authorization');
+    authUrl.searchParams.append('response_type', 'code');
+    authUrl.searchParams.append('client_id', process.env.NEXT_PUBLIC_LINKEDIN_CLIENT_ID!);
+    authUrl.searchParams.append('redirect_uri', 
+      (`${window.location.origin}/api/oauth/callback`));
+    authUrl.searchParams.append('scope', 'openid profile email');
+    authUrl.searchParams.append('state', crypto.randomUUID());
+    
+    router.push(authUrl.toString());
+  };
   const handleDisconnect = async () => {
     setIsDisconnecting(true)
     try {
       await disconnectLinkedIn()
+    } catch (error) {
+      console.error('Error disconnecting LinkedIn:', error)
+      // You might want to show an error message to the user here
     } finally {
       setIsDisconnecting(false)
     }
@@ -174,7 +190,7 @@ export default function ProfileSettingsPage() {
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel disabled={isDisconnecting}>Cancel</AlertDialogCancel>
                         <AlertDialogAction 
                           onClick={handleDisconnect} 
                           className="bg-red-500 hover:bg-red-600"
@@ -196,7 +212,7 @@ export default function ProfileSettingsPage() {
                   <Button 
                     variant="outline" 
                     className="border-[#E0FF4F]/20 text-[#E0FF4F] hover:bg-[#E0FF4F]/10 hover:border-[#E0FF4F]/30 transition-all duration-300"
-                    onClick={() => window.location.href = '/api/oauth/linkedin'}
+                    onClick={initiateAuth}
                   >
                     Connect LinkedIn
                   </Button>

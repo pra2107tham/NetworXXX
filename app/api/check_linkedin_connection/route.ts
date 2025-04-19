@@ -18,15 +18,14 @@ export async function GET(request: NextRequest) {
     }
     const { data, error } = await supabase
         .from('users')
-        .select('linkedin_id, linkedin_access_token')
+        .select(' linkedin_access_token')
         .eq('email', userEmail)
         .single();
 
     if (error) {
-        return NextResponse.json({ error: 'Error fetching user data' }, { status: 500 });
+        return NextResponse.json({ error: 'Error fetching user data', data: error }, { status: 500 });
     }
     return NextResponse.json({ 
-        linkedin_id: data.linkedin_id, 
         linkedin_access_token: data.linkedin_access_token }, 
         { status: 200 });
 }

@@ -20,7 +20,6 @@ export async function POST(request: NextRequest) {
     const { error } = await supabase
         .from('users')
         .update({ 
-            linkedin_id: null,
             linkedin_access_token: null 
         })
         .eq('email', userEmail);

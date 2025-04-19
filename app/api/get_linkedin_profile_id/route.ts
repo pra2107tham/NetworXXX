@@ -3,9 +3,9 @@ import { NextResponse } from 'next/server';
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const linkedinId = searchParams.get('linkedin_id');
+    const vanityName = searchParams.get('vanity_name');
 
-    if (!linkedinId) {
+    if (!vanityName) {
       return NextResponse.json(
         { error: 'LinkedIn ID is required' },
         { status: 400 }
@@ -13,15 +13,16 @@ export async function GET(request: Request) {
     }
 
     const response = await fetch(
-      `https://api.lix-it.com/v1/person/ids?li_flagship_id=${linkedinId}`,
+      `https://api.lix-it.com/v1/person/ids?li_flagship_id=${vanityName}`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.LIX_API_KEY}`,
+          Authorization: `${process.env.LIX_API_KEY}`,
         },
       }
     );
 
     if (!response.ok) {
+      console.log(response);  
       throw new Error('Failed to fetch profile ID');
     }
 
@@ -32,7 +33,7 @@ export async function GET(request: Request) {
   } catch (error) {
     console.error('Error fetching profile ID:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch profile ID' },
+      { error: 'Failed to fetch profile ID', data: error },
       { status: 500 }
     );
   }

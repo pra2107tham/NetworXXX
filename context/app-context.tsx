@@ -3,7 +3,6 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react'
 
 interface LinkedInData {
-  linkedin_id: string | null
   linkedin_access_token: string | null
 }
 
@@ -29,7 +28,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
     email: null,
   })
   const [linkedinData, setLinkedinData] = useState<LinkedInData>({
-    linkedin_id: null,
     linkedin_access_token: null,
   })
 
@@ -39,14 +37,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
       if (response.ok) {
         const data = await response.json()
         setLinkedinData({
-          linkedin_id: data.linkedin_id,
           linkedin_access_token: data.linkedin_access_token,
         })
-        setIsLinkedInConnected(!!data.linkedin_id)
+        setIsLinkedInConnected(!!data.linkedin_access_token)
       } else {
         setIsLinkedInConnected(false)
         setLinkedinData({
-          linkedin_id: null,
           linkedin_access_token: null,
         })
       }
@@ -54,7 +50,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
       console.error('Error fetching LinkedIn status:', error)
       setIsLinkedInConnected(false)
       setLinkedinData({
-        linkedin_id: null,
         linkedin_access_token: null,
       })
     }
@@ -68,7 +63,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
       if (response.ok) {
         setIsLinkedInConnected(false)
         setLinkedinData({
-          linkedin_id: null,
           linkedin_access_token: null,
         })
       }
