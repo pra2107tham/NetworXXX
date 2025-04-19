@@ -20,6 +20,16 @@ export default function ProfileSettingsPage() {
   const [jobTitle, setJobTitle] = useState("LinkedIn Growth Strategist")
   const [location, setLocation] = useState("San Francisco, CA")
   const [website, setWebsite] = useState("https://example.com")
+  const [isDisconnecting, setIsDisconnecting] = useState(false)
+
+  const handleDisconnect = async () => {
+    setIsDisconnecting(true)
+    try {
+      await disconnectLinkedIn()
+    } finally {
+      setIsDisconnecting(false)
+    }
+  }
 
   if (!isLoaded) {
     return (
@@ -165,8 +175,19 @@ export default function ProfileSettingsPage() {
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={disconnectLinkedIn} className="bg-red-500 hover:bg-red-600">
-                          Disconnect
+                        <AlertDialogAction 
+                          onClick={handleDisconnect} 
+                          className="bg-red-500 hover:bg-red-600"
+                          disabled={isDisconnecting}
+                        >
+                          {isDisconnecting ? (
+                            <div className="flex items-center gap-2">
+                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                              Disconnecting...
+                            </div>
+                          ) : (
+                            "Disconnect"
+                          )}
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
