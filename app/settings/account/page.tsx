@@ -26,7 +26,7 @@ export default function AccountSettingsPage() {
 
   return (
     <>
-      <TopNavbar title="Account Settings" isLinkedInConnected={false} />
+      <TopNavbar title="Account Settings" />
       <main className="flex-1 p-6">
         <div className="grid gap-6">
           <Card className="bg-[#001A1D]/80 backdrop-blur-sm border-[#E0FF4F]/10">

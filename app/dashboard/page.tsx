@@ -26,7 +26,7 @@ export default function DashboardPage() {
 
   return (
     <>
-      <TopNavbar title="Dashboard" isLinkedInConnected={false} />
+      <TopNavbar title="Dashboard" />
       <main className="flex-1 p-6">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <Card className="bg-[#001A1D]/80 backdrop-blur-sm border-[#E0FF4F]/10 hover:border-[#E0FF4F]/20 transition-all duration-300 hover:shadow-[0_4px_20px_rgba(0,39,43,0.5)] group">

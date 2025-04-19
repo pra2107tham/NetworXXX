@@ -10,9 +10,12 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { User, Briefcase, MapPin, Link as LinkIcon, Camera } from "lucide-react"
+import { useAppContext } from "@/context/app-context"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 
 export default function ProfileSettingsPage() {
   const { user, isLoaded } = useUser()
+  const { isLinkedInConnected, disconnectLinkedIn } = useAppContext()
   const [bio, setBio] = useState("LinkedIn growth strategist helping professionals build their personal brand.")
   const [jobTitle, setJobTitle] = useState("LinkedIn Growth Strategist")
   const [location, setLocation] = useState("San Francisco, CA")
@@ -28,7 +31,7 @@ export default function ProfileSettingsPage() {
 
   return (
     <>
-      <TopNavbar title="Profile Settings" isLinkedInConnected={false} />
+      <TopNavbar title="Profile Settings" />
       <main className="flex-1 p-6">
         <div className="grid gap-6">
           <Card className="bg-[#001A1D]/80 backdrop-blur-sm border-[#E0FF4F]/10">
@@ -141,12 +144,42 @@ export default function ProfileSettingsPage() {
                   <User className="h-5 w-5 text-[#E0FF4F]" />
                   <div>
                     <Label>LinkedIn Connection</Label>
-                    <p className="text-sm text-gray-400">Connect your LinkedIn profile to sync data</p>
+                    <p className="text-sm text-gray-400">
+                      {isLinkedInConnected ? "Your LinkedIn profile is connected" : "Connect your LinkedIn profile to sync data"}
+                    </p>
                   </div>
                 </div>
-                <Button variant="outline" className="border-[#E0FF4F]/20 text-[#E0FF4F] hover:bg-[#E0FF4F]/10 hover:border-[#E0FF4F]/30 transition-all duration-300">
-                  Connect LinkedIn
-                </Button>
+                {isLinkedInConnected ? (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="destructive" className="bg-red-500/20 text-red-400 hover:bg-red-500/30 border-red-500/20">
+                        Disconnect LinkedIn
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Disconnect LinkedIn?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This will remove your LinkedIn connection and stop syncing data. You can reconnect anytime.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={disconnectLinkedIn} className="bg-red-500 hover:bg-red-600">
+                          Disconnect
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                ) : (
+                  <Button 
+                    variant="outline" 
+                    className="border-[#E0FF4F]/20 text-[#E0FF4F] hover:bg-[#E0FF4F]/10 hover:border-[#E0FF4F]/30 transition-all duration-300"
+                    onClick={() => window.location.href = '/api/oauth/linkedin'}
+                  >
+                    Connect LinkedIn
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>

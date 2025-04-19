@@ -17,6 +17,7 @@ interface AppContextType {
   setUser: (user: { name: string | null; email: string | null }) => void
   linkedinData: LinkedInData
   fetchLinkedInStatus: () => Promise<void>
+  disconnectLinkedIn: () => Promise<void>
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
@@ -59,6 +60,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const disconnectLinkedIn = async () => {
+    try {
+      const response = await fetch('/api/disconnect_linkedin', {
+        method: 'POST',
+      })
+      if (response.ok) {
+        setIsLinkedInConnected(false)
+        setLinkedinData({
+          linkedin_id: null,
+          linkedin_access_token: null,
+        })
+      }
+    } catch (error) {
+      console.error('Error disconnecting LinkedIn:', error)
+    }
+  }
+
   useEffect(() => {
     fetchLinkedInStatus()
   }, [])
@@ -72,6 +90,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setUser,
         linkedinData,
         fetchLinkedInStatus,
+        disconnectLinkedIn,
       }}
     >
       {children}

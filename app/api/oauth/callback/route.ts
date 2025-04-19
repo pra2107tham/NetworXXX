@@ -31,7 +31,8 @@ export async function GET(request: Request) {
             redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}/api/oauth/callback`,
         }),
         });
-
+        
+        console.log(tokenResponse);
         const { access_token } = await tokenResponse.json();
 
         const fetchUserInfo = await fetch('https://api.linkedin.com/v2/userinfo', {
